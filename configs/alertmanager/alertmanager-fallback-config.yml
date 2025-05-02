@@ -2,13 +2,25 @@ route:
   group_wait: 0s
   group_interval: 30s
   repeat_interval: 30s
-  receiver: uncomplicated-alert-receiver
+  receiver: empty-receiver
 
 receivers:
-  # no notifications will be sent to alertmanager
+  # no notifications will be sent as this is a placeholder receiver
   - name: 'empty-receiver'
-  # https://github.com/jamesread/uncomplicated-alert-receiver
-  - name: uncomplicated-alert-receiver
-    webhook_configs:
-      - url: http://uncomplicated-alert-receiver:8080/alerts
-        send_resolved: false
+
+# You can add additional receivers here when ready, for example:
+#
+# - name: 'email-notifications'
+#   email_configs:
+#     - to: 'your-email@example.com'
+#       from: 'alertmanager@example.com'
+#       smarthost: 'smtp.example.com:587'
+#       auth_username: 'smtp-user'
+#       auth_password: 'smtp-password'
+#
+# - name: 'slack-notifications'
+#   slack_configs:
+#     - api_url: 'https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX'
+#       channel: '#alerts'
+#       title: '{{ .GroupLabels.alertname }}'
+#       text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
